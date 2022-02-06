@@ -1,8 +1,9 @@
 import React from 'react';
+import { SignupForm } from './features/SignupForm';
 
 const App = () => (
   <div>
-    <h1>Hello User Signup Form</h1>
+    <SignupForm />
   </div>
 );
 
