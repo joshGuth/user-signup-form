@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
+import styles from './signupForm.module.css';
 
 export const SignupForm = () => {
   const [errors, setErrors] = useState([]);
   const [isSubmittedSuccessfully, setIsSubmittedSuccessfully] = useState(false);
 
-  const userDatabase = [
-    {
-      username: 'Joe1',
-      password: 'password123'
-    },
-    {
-      username: 'User2',
-      password: 'pass1234'
-    }
-  ];
+  const userDatabase = [];
 
   const validateForm = (username, password, passwordConfirmation) => {
     if (userDatabase.find((user) => user.username == username.value)) {
@@ -31,6 +23,7 @@ export const SignupForm = () => {
         }
       ]);
     }
+
     if (errors.length) {
       return false;
     } else {
@@ -51,6 +44,7 @@ export const SignupForm = () => {
     const formIsValid = validateForm(username, password, passwordConfirmation);
     console.log(formIsValid);
     if (formIsValid) {
+      userDatabase.push({ username, password });
       setIsSubmittedSuccessfully(true);
       setErrors([]);
     }
@@ -62,20 +56,35 @@ export const SignupForm = () => {
   };
 
   return (
-    <div>
+    <div className={styles.formContainer}>
       {isSubmittedSuccessfully ? (
-        <div>User successfully logged in</div>
+        <div>Thank you for signing up.</div>
       ) : (
         <form onSubmit={handleSubmit}>
-          <label htmlFor="username">Username:</label>
-          <input type="text" id="username" required />
-          {renderErrorMessage('username')}
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" required />
-          <label htmlFor="passwordConfirmation">Confirm Password:</label>
-          {renderErrorMessage('password')}
-          <input type="password" id="passwordConfirmation" required />
-          <button type="submit">Sign Up</button>
+          <div className={styles.formField}>
+            <input placeholder="Username" type="text" id="username" required />
+            {renderErrorMessage('username')}
+          </div>
+          <div className={styles.formField}>
+            <input
+              placeholder="Password"
+              type="password"
+              id="password"
+              required
+            />
+            {renderErrorMessage('password')}
+          </div>
+          <div className={styles.formField}>
+            <input
+              placeholder="Confirm Password"
+              type="password"
+              id="passwordConfirmation"
+              required
+            />
+          </div>
+          <button className={styles.button} type="submit">
+            Sign Up
+          </button>
         </form>
       )}
     </div>

@@ -1,0 +1,26 @@
+.button {
+  background-color: #4d91db;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  width: 100%;
+}
+.errorMessage {
+  color: red;
+}
+
+.formContainer {
+  width: 400px;
+}
+
+input {
+  margin-bottom: 10%;
+  width: 100%;
+  padding: 20px;
+  border-radius: 4px;
+  border: 1px solid;
+  font-size: 16px;
+}
