@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export const SignupForm = () => {
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState([]);
   const [isSubmittedSuccessfully, setIsSubmittedSuccessfully] = useState(false);
 
   const userDatabase = [
@@ -17,29 +17,42 @@ export const SignupForm = () => {
 
   const validateForm = (username, password, passwordConfirmation) => {
     if (userDatabase.find((user) => user.username == username.value)) {
-      setErrors({ name: 'username', message: errorMessages.usernameTaken });
+      setErrors((errors) => [
+        ...errors,
+        { name: 'username', message: errorMessages.usernameTaken }
+      ]);
     }
     if (password.value !== passwordConfirmation.value) {
-      setErrors({
-        name: 'password',
-        message: errorMessages.passwordConfirmationError
-      });
+      setErrors((errors) => [
+        ...errors,
+        {
+          name: 'password',
+          message: errorMessages.passwordConfirmationError
+        }
+      ]);
     }
-    if (errorMessages.length) {
+    if (errors.length) {
       return false;
+    } else {
+      return true;
     }
   };
 
-  const renderErrorMessage = (name) =>
-    name === errors.name && <div>{errors.message}</div>;
+  const renderErrorMessage = (errorName) => {
+    const error = errors.find(({ name }) => name === errorName);
+    if (error) {
+      return <div>{error.message}</div>;
+    }
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     var { username, password, passwordConfirmation } = document.forms[0];
     const formIsValid = validateForm(username, password, passwordConfirmation);
-
+    console.log(formIsValid);
     if (formIsValid) {
       setIsSubmittedSuccessfully(true);
+      setErrors([]);
     }
   };
 
@@ -62,7 +75,7 @@ export const SignupForm = () => {
           <label htmlFor="passwordConfirmation">Confirm Password:</label>
           {renderErrorMessage('password')}
           <input type="password" id="passwordConfirmation" required />
-          <button type="submit">Submit</button>
+          <button type="submit">Sign Up</button>
         </form>
       )}
     </div>
